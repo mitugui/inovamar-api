@@ -1,8 +1,6 @@
 spring:
   application:
     name: inovamar
-  config:
-    import: file:.env[.properties]
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${DB_URL}
