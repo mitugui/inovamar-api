@@ -1,8 +1,11 @@
 package br.com.incubadoraifpr.inovamar.domain.publiccall;
 
+import br.com.incubadoraifpr.inovamar.domain.link.Link;
 import br.com.incubadoraifpr.inovamar.domain.organization.Organization;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "PublicCall")
 @Table(name = "public_calls")
@@ -19,6 +22,9 @@ public class PublicCall {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
+
+    @OneToMany(mappedBy = "publicCall", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Link> links;
 
     private String title;
 
