@@ -15,4 +15,8 @@ public class Organization {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    public Organization(DataOrganizationCreate dataOrganizationCreate) {
+        this.name = dataOrganizationCreate.name();
+    }
 }
