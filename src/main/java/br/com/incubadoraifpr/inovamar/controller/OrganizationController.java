@@ -1,9 +1,6 @@
 package br.com.incubadoraifpr.inovamar.controller;
 
-import br.com.incubadoraifpr.inovamar.domain.organization.DataOrganizationCreate;
-import br.com.incubadoraifpr.inovamar.domain.organization.DataOrganizationResponse;
-import br.com.incubadoraifpr.inovamar.domain.organization.Organization;
-import br.com.incubadoraifpr.inovamar.domain.organization.OrganizationRepository;
+import br.com.incubadoraifpr.inovamar.domain.organization.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/organizations")
 public class OrganizationController {
     @Autowired
-    private OrganizationRepository organizationRepository;
+    private OrganizationService organizationService;
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> create(@RequestBody @Valid DataOrganizationCreate dataOrganizationCreate) {
-        if (organizationRepository.existsByName(dataOrganizationCreate.name())) {
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body("Organization with name " + dataOrganizationCreate.name() + " already exists");
-        }
-
-        var organization = new Organization(dataOrganizationCreate);
-        var saved = organizationRepository.save(organization);
-
+    public ResponseEntity<DataOrganizationResponse> create(@RequestBody @Valid DataOrganizationCreate dataOrganizationCreate) {
+        var saved = organizationService.create(dataOrganizationCreate);
+    
         return ResponseEntity
                 .status(HttpStatus.CREATED).
                 body(new DataOrganizationResponse(saved));
